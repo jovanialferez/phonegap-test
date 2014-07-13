@@ -1,6 +1,10 @@
 var module = angular.module('LoginModule');
 
 module.controller('LoginController', ['$scope', 'Auth', '$cookieStore', function($scope, Auth, $cookieStore) {
+	if ($cookieStore.get('accesstoken') && $cookieStore.get('refreshtoken')) {
+		//$scope.ons.screen.presentPage('main.html');
+	}
+
 	$scope.login = function() {
 		Auth.setCredentials('dGVzdF9jbGllbnQ=', '4b622b59fae5e0df7db744cfeead120a86d752ce');
 		var promise = Auth.login($scope.username, $scope.password);

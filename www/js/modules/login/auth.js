@@ -1,7 +1,7 @@
 var module = angular.module('LoginModule');
 
 // @see http://wemadeyoulook.at/en/blog/implementing-basic-http-authentication-http-requests-angular/
-module.factory('Auth',  ['Base64', '$cookieStore', '$http', function (Base64, $cookieStore, $http) {
+module.factory('Auth',  ['Base64', '$cookieStore', '$http', 'BASE_URL', function (Base64, $cookieStore, $http, BASE_URL) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
 
@@ -17,12 +17,11 @@ module.factory('Auth',  ['Base64', '$cookieStore', '$http', function (Base64, $c
             $http.defaults.headers.common.Authorization = 'Basic ';
         },
         login: function(username, password) {
-        	var promise = $http.post('http://api.klooma.com/oauth/token', { grant_type: 'password', username: username, password: password });
+        	var promise = $http.post(BASE_URL + '/oauth/token', { grant_type: 'password', username: username, password: password });
 
         	return promise.then(function(response) {
-                $cookieStore.put('accesstoken', response.access_token);
-                $cookieStore.put('refreshtoken', response.refresh_token);
-                $http.defaults.headers.common.Authorization = 'Bearer ' + response.access_token;
+                $cookieStore.put('accesstoken', response.data.access_token);
+                $cookieStore.put('refreshtoken', response.data.refresh_token);
 
                 return true;
     		});

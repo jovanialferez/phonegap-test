@@ -1,0 +1,5 @@
+<ons-page ng-controller="FeedsController">
+	<ons-list>
+		<ons-list-item class="topcoat-list__item__line-height" ng-repeat="feed in feeds"><img style="width:100%" ng-src="{{feed.subject.thumbnail_url}}" />{{feed.user.firstname}} {{feed.action.description}} {{feed.subject.title}}</ons-list-item>
+	</ons-list>
+</ons-page>
